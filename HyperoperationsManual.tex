@@ -1,0 +1,228 @@
+\documentclass[letterpaper]{article}
+\usepackage{amsfonts, amsmath, longtable, upquote, verbatim}
+\usepackage[margin=1.25in]{geometry}
+
+%Special commands from tetration-ref.tex
+\newcommand{\boxhyper}[3]{{#2}\,\boxed{\!{#1}\!}\,{#3}}
+
+%modified for proper placement of rank s
+\newcommand{\boxhyperlog}[3]{\underset{#2}{{}^{#1}{\begin{tabular}{|c}$\!\!{#3}\!\!$\\\hline\end{tabular}}}}
+\newcommand{\boxhyperroot}[3]{\overset{#2}{{}_{#1}{\begin{tabular}{|c}\hline\!\!$#3$\!\!\end{tabular}}}}
+
+\title{{\small The Short} \\ \texttt{Hyperoperations} v0.1 Manual}
+\author{Andy Groeneveld}
+
+\begin{document}
+
+\maketitle
+
+\noindent Package copyright \copyright 2012, Andy Groeneveld.  Mathematica is a copyright of Wolfram Research.
+
+\section{Introduction}
+The \texttt{Hyperoperations} package has one purpose: allowing the use of hyperoperation sequences in Mathematica.  A hyperoperation sequence consists of operations that are related by a recursion scheme.  The familiar operations of addition, multiplication, and exponentiation are part of the main hyperoperation sequence.  Of course, variations on this sequence exist, such as Albert Bennett's commutative hyperoperations, Cl\'ement Frappier's balanced hyperoperations, and Andrzej Grzegorczyk's functions used in defining the classes $\mathcal{E}^n$.  Within each hyperoperation sequence, an individual operation is identified by its rank.  The ranks of the familiar operations of algebra are integers, so that we have addition (rank 1), multiplication (rank 2), and exponentiation (rank 3).  The inverses of a hyperoperation are the hyperlogarithm and hyper-root; when the hyperoperation is commutative, both inverses are the same.  An example is addition, whose inverse is subtraction.  Naturally, mathematicians have wondered what lower ranks, higher ranks, and even real or complex ranks correspond to.  In some cases, they have been succesful, although there is still much room for progress in this area.
+
+With that said, \texttt{Hyperoperations} is not a very sophisticated package; it is a small collection of hyperoperations and related functions.  Hyperoperations and hyperlogarithms of rank 0 through 4 are fully supported;  hyper-roots are fully supported through rank 3.  For rank 4, the square super-root can be calculated exactly; other super-roots are approximated numerically when possible.  Symbolic manipulation can be done on any rank.
+
+Other hyperoperation sequences are also included:
+\begin{itemize}
+  \item Bennett's commutative hyperoperations (including real ranks),
+  \item Frappier's balanced hyperoperations,
+  \item Goodstein's $G$ function (closely related to the main sequence), and
+  \item Grzegorczyk's $f_k$, used in defining the hierarchy that bears his name.
+\end{itemize}
+
+If you find anything that needs correcting, from a typo to a bug to a serious mathematical blunder, feel free to tell me by emailing \verb|abgroene@mtu.edu|. \pagebreak
+
+\section{Using \texttt{Hyperoperations}}
+Once you have downloaded the zip file \verb|Hyperoperations.zip|, all you need to do to begin using the package is:
+\begin{enumerate}
+\item Unzip \verb|Hyperoperations.zip|. On Windows, this can be accomplished by right-clicking on the file and selecting ``Extract all\ldots''
+\item Place the files \verb|Hyperoperations.m| and \verb|s25| in your Mathematica working directory.  You can find out what your working directory is with \verb|Directory[]|, or set a new one with \\
+\verb|SetDirectory[|\emph{new path}\verb|]| \\
+\item Load the package with the command
+\begin{verbatim}
+Needs["Hyperoperations`"]
+\end{verbatim}
+It is also possible to use \verb|Get| or its shorthand form \verb|<<| to load the package.   You may encounter a ``shadow'' error if you have already used or defined symbols with the same names as symbols in the package.  If you do, run \verb|Remove[|\emph{symbol}\verb|]| for each name that appears with an error message.
+\item For brief help on a function, type \verb|?|\emph{function}.  For a list of all functions in the \texttt{Hyperoperations} package, type \verb|?Hyperoperations`*|.  For a list of all functions with more substantial documentation, you can see the next section.
+\end{enumerate}
+
+\section{Functions}
+\begin{longtable}{p{1.5in}p{3.5in}}
+
+\verb|Bennett[|$n$\verb|, |$a$\verb|, |$b$\verb|]| & gives the commutative hyperoperation $a^0_nb$. $n$ need not be an integer.  For $n = 0, 1$, the commutative hyperoperations correspond to the main sequence: $a^0_0b = a + b$ and $a^0_1b = ab$, but  $a^0_2b \neq a^b$. \\[6pt]
+
+\verb|Delta[|$x$\verb|]| & represents the delta number $\Delta x$ (not to be confused with a differential). \\[6pt]
+
+\verb|Deltate[|$x$\verb|, |$y$\verb|]| & gives the deltation $x \,\Delta\, y$.  Deltation is the inverse of (Rubtsov and Romerio's) zeration,  so if \mbox{$z = x \circ y$}, then $y = z \,\Delta\, x$. \\[6pt]
+
+\verb|Epsilon[|$s$\verb|, |$a$\verb|]| & gives the left identity element $\epsilon_s(a)$, where $s$ is the hyperoperation rank and $a$ is the right operand. \\[6pt]
+
+\verb|Eta[|$s$\verb|]| & gives the right identity element $\eta_s$, where $s$ is the hyperoperation rank.  Note that the right identity element does not depend on the other operand. \\[6pt]
+
+\verb|FrappierBox[|$x$\verb|, |$y$\verb|]| & gives Cl\'ement Frappier's box operation $x \,\Box\, y$. \\[6pt]
+
+\verb|GoodsteinG[|$k$\verb|, |$a$\verb|, |$n$\verb|]| & gives R.~L.~ Goodstein's function $G(k, a, n)$, which is equal to $a \,\boxed{k}\, n$ for integers $k$ and $n$ both greater than zero. \\[6pt]
+
+\verb|HierarchyF[|$n$\verb|, |$x$\verb|, |$y$\verb|]| & gives Andrzej Grzegorczyk's function $f_n(x, y)$.  $f_n$ arises in the definition of the Grzegorczyk hierarchy, which contains \emph{every} computable function at some level.  The name \verb|HierarchyF| was chosen since few people can spell ``Grzegorczyk'' the same way twice. \\[6pt]
+
+\verb|Hyper[|$s$\verb|, |$a$\verb|, |$b$\verb|]| & gives the general hyperoperation $a \,\boxed{s}\, b$, also written as $a \otimes^s b$ or $a [s] b$.  For integer ranks $0 \leq s \leq 4$, the function evaluates numerically for all numeric arguments.  Note that for $k \geq 4$, extremely large values can be produced easily (see \verb|TetrateDigits|). \\[6pt]
+
+\verb|HyperLog[|$s$\verb|, |$a$\verb|, |$b$\verb|]| & gives the base-$b$ hyperlogarithm of $a$ for rank $s$, usually denoted as $\boxhyperlog{b}{s}{a}$. \\[6pt]
+
+\verb|HyperRoot[|$s$\verb|, |$a$\verb|, |$b$\verb|]| & gives the $b$-th hyper-root of $a$ for rank $s$, handily denoted by $\boxhyperroot{b}{s}{a}$. \\[6pt]
+
+\verb|SuperLog[|$x$\verb|, |$y$\verb|]| & gives the base-$x$ superlogarithm of $y$.  Note that this is the reverse order from \verb|HyperLog|; \verb|SuperLog[|$x$\verb|, |$y$\verb|]| is the same as \verb|HyperLog[4, |$y$\verb|, |$x$\verb|]|. \\[6pt]
+
+\verb|SuperRoot[|$x$\verb|, |$y$\verb|]| & gives the $y$-th super-root of $x$.  For $y =2$, the result is exact.  For $y > 2$, the root is calculated numerically.  For $y < 2$, the process takes too long to be practical.  Be advised that non-integer roots are also time-consuming, but still possible.  Commands like \verb|SuperRoot[2, 1.5]| will simply evaluate to \verb|SuperRoot[2, 1.5]| since computation is impractical.  However, the package is smart enough to handle these ``symbolic'' super-roots properly. \\[6pt]
+
+\verb|SuperSqrt[|$x$\verb|]| & gives the square super-root of $x$, provided that $x$ is real and $x > e^{-1/e}$. \\[6pt]
+
+\verb|Tetrate[|$x$\verb|, |$y$\verb|]| & gives the tetration $^yx$, provided $x > 1$.  For those curious, the extension method used is that of Andrew Robbins.  Be aware that even \verb|Tetrate[4, 4]| causes an overflow.  However, the next command provides a way to approach these large numbers. \\[6pt]
+
+\verb|TetrateDigits[|$x$\verb|, |$y$\verb|, |$n$\verb|]| & gives the $n$ rightmost digits of $^yx$.  Using this, one can compute, say, the last 100,000 digits of $^44$.  For non-integer values of $x$, Mathematica uses machine-precision numbers, so this limits the number of digits that can be obtained, typically to 7 or less. \\[6pt]
+
+\verb|Tower[|$x$\verb|, |$n$\verb|]| & gives a power tower of $n$ copies of $x$.  For integer $n$, this is the same as \verb|Tetrate[|$x$\verb|, |$n$\verb|]|. \\[6pt]
+
+\verb|Tower[|$x$\verb|, |$n$\verb|, |$s$\verb|]| & gives a power tower of $n$ copies of $x$ with $s$ at the top.  Those who feel so inclined could also use \verb|Tetrate[|$x$\verb|, |$n$\verb| + SuperLog[|$x$\verb|, |$s$\verb|]]|, which may \emph{not} be the same since \verb|Tetrate| and \verb|SuperLog| use approximations! \\[6pt]
+
+\verb|TowerMod[|$x$\verb|, |$n$\verb|, |$m$\verb|]| & is the same as \verb|Tower[|$x$\verb|, |$n$\verb|]|, but evaluates using exponentiation modulo $m$. \\[6pt]
+
+\verb|TowerMod[|$x$\verb|, |$n$\verb|, |$s$\verb|, |$m$\verb|]| & is the same as \verb|Tower[|$x$\verb|, |$n$\verb|, |$s$\verb|]|, but evaluates using exponentiation modulo $m$. \\[6pt]
+
+\verb|TrappmannZerate[|$x$\verb|, |$y$\verb|]| & gives the zeration $x \circ y$ according to Henryk Trappmann's counterproposal. \\[6pt]
+
+\verb|Zerate[|$x$\verb|, |$y$\verb|]| & gives the zeration $x \circ y$ according to Rubtsov and Romerio's definition.
+
+\end{longtable}
+
+\section{Examples}
+
+As shown here, \verb|Bennett| takes non-integer ranks, although whether these non-integer ranks have any meaning is another question.
+
+\begin{verbatim}
+In[1]:= Bennett[0.5, 3, 4]
+Out[1]= 9.692
+\end{verbatim}
+
+Since \verb|Bennett| performs commutative hyperoperations, its version of exponentiation is not what one might expect:
+
+\begin{verbatim}
+In[2]:= Bennett[2, 0, 0]
+Out[2]= Infinity
+
+In[3]:= N[Bennett[2, 3, 4]]
+Out[3]= 4.58596
+\end{verbatim}
+
+The following examples illustrate the unusual results \verb|Deltate| can give.
+
+\begin{verbatim}
+In[4]:= Zerate[10, 5]
+Out[4]= 11
+
+In[5]:= Deltate[11, 10]
+Out[5]= Interval[{-Infinity, 10}]
+
+In[6]:= Deltate[11, 5]
+Out[6]= 10
+\end{verbatim}
+
+To get a better idea of what left identity elements are and how they work, see these examples:
+
+\begin{verbatim}
+In[7]:= Epsilon[0, 77] 
+Out[7]= -Infinity
+In[8]:= Hyper[0, %, 77]
+Out[8]= 77
+
+In[9]:= Epsilon[1, 77] 
+Out[9]= 0
+In[10]:= Hyper[1, %, 77]
+Out[10]= 77
+\end{verbatim}
+
+\noindent\verb|In[11]:= Epsilon[3, 77]| \\
+\noindent\verb|Out[11]= 77|$^{\verb|1/77|}$ \\
+\noindent\verb|In[12]:= Hyper[3, %, 77]| \\
+\noindent\verb|Out[12]= 77| \\
+
+Frappier's box operations have a simple structure of repeated exponentiation: \\
+
+\noindent\verb|In[13]:= Clear[x]| \\
+\noindent\verb|In[14]:= Table[FrappierBox[n, x], {n, 0, 3}]| \\
+\noindent\verb|Out[14]= |\bigg\{\verb|x, x|$^{\verb|x|}$\verb|, (x|$^{\verb|x|}$\verb|)|$^{{\verb|x|}^{\verb|x|}}$\verb|, |\big(\verb|(x|$^{\verb|x|}$\verb|)|$^{{\verb|x|}^{\verb|x|}}$\big)$^{\verb|(x|^{\verb|x|}\verb|)|^{{\verb|x|}^{\verb|x|}}}$\bigg\} \\
+
+Tetration is famous for producing large numbers, but the function \verb|TetrateDigits| provides a way to see the rightmost digits of a tetration that would otherwise be too large to handle:
+
+\begin{verbatim}
+In[15]:= Tetrate[4, 4]
+General::ovfl: Overflow occurred in computation. >>
+Out[15]= Overflow[]
+In[16]:= TetrateDigits[4, 4, 50]
+Out[16]= 27238232605843019607448189676936860456095261392896
+\end{verbatim}
+
+Tetration and its two inverses also work for real numbers: \\
+
+\noindent\verb|In[17]:= Tetrate[E, Pi]| \\
+\noindent\verb|Out[17]= 3.71529|$\times {\verb|10|}^{\verb|10|}$
+
+\begin{verbatim}
+In[18]:= SuperLog[3, 19]
+Out[18]= 1.90824
+In[19]:= Tetrate[3, %]
+Out[19]= 19.
+\end{verbatim}
+\begin{verbatim}
+In[20]:= SuperRoot[44, 3]
+Out[20]= 2.12993
+In[21]:= Tetrate[%, 3]
+Out[21]= 44.
+\end{verbatim}
+
+If you can understand how these next expressions for the golden ratio $\phi$ and its square $\phi^2$ work, you have taken a great stride in understanding hyperoperations.  You'll certainly be able to get use out of this package. \\
+
+\noindent\verb|In[22]:= Hyper[1, Hyper[2, Hyper[3, 5, 1/2], 1/2], 1/2]| \\
+\noindent\verb|Out[22]= |$\frac{\texttt{1}}{\texttt{2}} \verb|+| \frac{\sqrt{\texttt{5}}}{\texttt{2}}$ \\
+\noindent\verb|In[23]:= % == GoldenRatio| \\
+\noindent\verb|Out[23]= True| \\
+
+\noindent\verb|In[24]:= Hyper[0, Hyper[1, Hyper[2, Hyper[3, 5, 1/2], 1/2], 1/2], 1/2]| \\
+\noindent\verb|Out[24]= |$\frac{\texttt{3}}{\texttt{2}} \verb|+| \frac{\sqrt{\texttt{5
+}}}{\texttt{2}}$ \\
+\noindent\verb|In[25]:= % == GoldenRatio^2| \\
+\noindent\verb|Out[25]= True| \\
+
+\section{Creating the Critical Function}
+
+There is nothing magical about the file \verb|s25|.  It contains the critical function for the superlogarithm, \verb|s25|.  I generated it using this short snippet:
+
+\begin{verbatim}
+n = 25;
+temp = LinearSolve[Table[Table[m^k/m! - If[m == k, Log[x]^(-k), 0], {m, 1, n}],
+  {k, 0, n - 1}], Join[{1}, Table[0, {n - 1}]]];
+body = -1 + Sum[z^k/k! temp[[k]], {k, 1, n}];
+s25[x_, z_] := Evaluate[Simplify[body]]
+\end{verbatim}
+
+It isn't necessary to use \verb|Simplify|; I only did this to reduce the size of the function for distribution.  For personal use, the extra time simplifcation takes is probably not worth it.  You can use this code, with slight modification, to produce any approximation you desire.  Just change the value of \verb|n| (and the function name!), but beware that you may need to wait awhile for values over 20.  To use your own critical function in the package, write it to a file (using \verb|Put| or \verb|>>|, for example) and then change the line in \verb|Hyperoperations.m| that reads:
+\begin{verbatim}
+Get["s25"]
+\end{verbatim}
+to \verb|Get["|\emph{your file}\verb|"]|.
+
+\section{Legal Information}
+Copyright \copyright 2012, Andy Groeneveld. \\
+All rights reserved. \\
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+\begin{itemize}
+\item Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+\item Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+\item Neither the name of Michigan Technological University nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+\end{itemize}
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\end{document}
